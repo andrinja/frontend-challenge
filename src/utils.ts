@@ -10,11 +10,12 @@ export function cn(...inputs: ClassValue[]) {
  * @returns
  */
 export async function fetchData(path: string) {
-  const response = await fetch(`/api/${path}`);
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL
+  const response = await fetch(`${baseUrl}/api/${path}`);
 
   if (!response.ok) {
     throw new Error("Network response was not ok");
   }
 
-  return response.json();
+  return response.json()
 }
