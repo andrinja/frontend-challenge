@@ -1,9 +1,9 @@
 import Providers from "./providers";
 import { type DehydratedState } from "@tanstack/react-query";
 import "~/styles/globals.css";
-
 import Image from "next/image";
 import { ThemeProvider as NextThemesProvider } from "next-themes";
+import { Toaster } from "~/components/ui/toaster";
 
 export default function Layout({
   dehydratedState,
@@ -25,6 +25,7 @@ export default function Layout({
             <Providers dehydratedState={dehydratedState}>{children}</Providers>
           </main>
         </NextThemesProvider>
+        <Toaster />
       </body>
     </html>
   );
