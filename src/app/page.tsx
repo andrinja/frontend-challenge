@@ -1,55 +1,35 @@
-import { format } from "date-fns";
 import Head from "next/head";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "~/components/ui/table";
 import { fetchData } from "~/utils";
-import { TABLE_DATE_FORMAT } from "~/constants";
-import DeleteButton from "~/components/DeleteButton";
+import CreateVoyageForm from "~/components/create-voyage-form";
+import {
+  dehydrate,
+  HydrationBoundary,
+  QueryClient,
+} from "@tanstack/react-query";
+import VoyageTable from "~/components/voyage-table";
 
 export default async function Home() {
-  const voyages = await fetchData("voyage/getAll");
+  const queryClient = new QueryClient();
+  await queryClient.prefetchQuery({
+    queryKey: ["voyages"],
+    queryFn: () => fetchData("voyage/getAll"),
+  });
+
   return (
-    <>
+    <HydrationBoundary state={dehydrate(queryClient)}>
       <Head>
         <title>Voyages | DFDS</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead>Departure</TableHead>
-            <TableHead>Arrival</TableHead>
-            <TableHead>Port of loading</TableHead>
-            <TableHead>Port of discharge</TableHead>
-            <TableHead>Vessel</TableHead>
-            <TableHead>&nbsp;</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {voyages?.map((voyage: any) => (
-            <TableRow key={voyage.id}>
-              <TableCell>
-                {format(new Date(voyage.scheduledDeparture), TABLE_DATE_FORMAT)}
-              </TableCell>
-              <TableCell>
-                {format(new Date(voyage.scheduledArrival), TABLE_DATE_FORMAT)}
-              </TableCell>
-              <TableCell>{voyage.portOfLoading}</TableCell>
-              <TableCell>{voyage.portOfDischarge}</TableCell>
-              <TableCell>{voyage.vessel.name}</TableCell>
-              <TableCell>
-                <DeleteButton voyageId={voyage.id} />
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </>
+      <div className="flex flex-col space-y-2">
+        <div className="mt-2 flex">
+          <CreateVoyageForm />
+        </div>
+
+        <div className="mt-1 flex justify-start">
+          <VoyageTable />
+        </div>
+      </div>
+    </HydrationBoundary>
   );
 }

@@ -19,3 +19,21 @@ export async function fetchData(path: string) {
 
   return response.json()
 }
+
+export async function postData<PostData, PostSuccessResponse>(path: string, data: PostData): Promise<PostSuccessResponse> {
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+  const response = await fetch(`${baseUrl}/api/${path}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.message || 'Network response was not ok');
+  }
+
+  return response.json();
+}

@@ -1,17 +1,10 @@
-import Providers from "./providers";
-import { type DehydratedState } from "@tanstack/react-query";
 import "~/styles/globals.css";
 import Image from "next/image";
 import { ThemeProvider as NextThemesProvider } from "next-themes";
 import { Toaster } from "~/components/ui/toaster";
+import Providers from "./providers";
 
-export default function Layout({
-  dehydratedState,
-  children,
-}: {
-  dehydratedState: DehydratedState;
-  children: React.ReactNode;
-}) {
+export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body>
@@ -22,7 +15,7 @@ export default function Layout({
             </div>
           </nav>
           <main className="mx-auto flex w-full max-w-screen-xl items-center justify-center px-2">
-            <Providers dehydratedState={dehydratedState}>{children}</Providers>
+            <Providers>{children}</Providers>
           </main>
         </NextThemesProvider>
         <Toaster />
