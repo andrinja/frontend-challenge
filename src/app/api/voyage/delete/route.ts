@@ -4,14 +4,14 @@ import { prisma } from "~/server/db";
 
 /**
  * @swagger
- * /api/voyage/delete/{id}:
+ * /api/voyage/delete:
  *   delete:
  *     tags:
  *       - Voyage
  *     summary: Deletes a voyage
  *     description: Deletes a voyage by its ID. Note that this operation randomly fails to demonstrate error handling.
  *     parameters:
- *       - in: path
+ *       - in: query
  *         name: id
  *         required: true
  *         description: The ID of the voyage to delete.
