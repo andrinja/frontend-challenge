@@ -13,7 +13,7 @@ interface UnitType {
   unitNumberAvailable: boolean;
 }
 
-const unitTypes: UnitType[] = [
+export const unitTypes: UnitType[] = [
   {
     id: "20FL",
     allowDrivers: false,
